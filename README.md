@@ -1,1 +1,1 @@
-Telinha em Python feita com o TKinter. Faço um GET na API do ChatGPT, para as consultas.
+Projeto usando a API do ChatGPT com o intuito de fazer com que o usuário não precise digitar para conversar com o ChatGPT.
