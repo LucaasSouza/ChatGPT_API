@@ -1,7 +1,16 @@
 import openai
 from tkinter import *
+import pyttsx3
 
-class Application:
+engine = pyttsx3.init() # Instância do módulo de conversão de texto para áudio
+engine.setProperty("rate", 150) # Configuração da velocidade da voz
+engine.setProperty("volume", 1.0) # Configuração do volume da voz
+
+def falar_resposta(txt): # Função responsável por iniciar a voz da resposta do Chat GPT
+    engine.say(txt)
+    engine.runAndWait()
+
+class Application: # Classe que monta a telinha do TKinter
     def __init__(self, master = None):
         self.frame = Frame(master, padx = 20, pady = 10)
         self.frame.pack()
@@ -21,13 +30,13 @@ class Application:
         self.button.pack()
 
     def keyDown(self, event):
-        if event.keysym == 'Return':
+        if event.keysym == 'Return': # Verifica se a tecla do evento de keydown foi o Enter/Return. Se sim, chama a função que faz a requisição do ChatGPT
             self.Chat()
-
+    
     def Chat(self):
-        pergunta = self.input.get()
+        pergunta = self.input.get() # Pego o conteúdo digitado no input
 
-        if pergunta.upper() == 'FECHAR':
+        if pergunta.upper() == 'FECHAR': 
             print('Até mais!')
             return root.destroy()
         else:
@@ -40,8 +49,8 @@ class Application:
                     temperature = 0
                 )
 
+                falar_resposta(request.choices[0].text.strip())
                 self.input.delete(0, 'end')
-                return print(f'Pergunta: {pergunta}\nResposta: {request.choices[0].text.strip()}')
             except:
                 print('ERRO! A conversa foi encerrada.')
                 return root.destroy()
